@@ -1,2 +1,37 @@
-# UPI_Sheild
-AI-powered fraud detection system for UPI and credit card transactions. Built with Streamlit and machine learning, it predicts fraud risk in real time, supports batch uploads, and provides explainability using SHAP. Features include interactive dashboard, system modes, and modern UI for monitoring and analysis.
+# AI Credit Card Fraud Detection System
+
+This project detects fraudulent credit card transactions using a Machine Learning model.
+
+##  Features
+- Fraud prediction using XGBoost
+- Interactive Streamlit web app
+- Fraud probability score
+- Real-time transaction analysis
+
+##  Dataset
+Kaggle Credit Card Fraud Detection Dataset
+
+Features used:
+Time, V1–V28, Amount
+
+## Technologies Used
+Python  
+Scikit-learn  
+XGBoost  
+Streamlit  
+NumPy  
+Pandas
+
+##How to Run
+
+Activate environment:
+
+venv\Scripts\activate
+
+Run app:
+
+streamlit run app.py
+
+Open in browser:
+
+http://localhost:8501

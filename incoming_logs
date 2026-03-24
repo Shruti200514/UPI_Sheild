@@ -1,0 +1,36 @@
+# Add this inside your app.py Main Tabs section
+tab_auto = st.tabs(["🔍 Manual", "📊 Analytics", "📁 Auto-Scan Folder"])[2]
+
+with tab_auto:
+    st.subheader("📁 Automated Folder Monitoring")
+    st.info("Drop CSV files into the 'Incoming_Logs' folder to scan them automatically.")
+    
+    # 1. Look inside the folder
+    log_folder = "Incoming_Logs"
+    if not os.path.exists(log_folder):
+        os.makedirs(log_folder)
+        
+    files = [f for f in os.listdir(log_folder) if f.endswith('.csv')]
+    
+    if len(files) == 0:
+        st.write("No new logs found. Monitoring...")
+    else:
+        st.write(f"Found {len(files)} new log files!")
+        selected_file = st.selectbox("Select a log to analyze", files)
+        
+        if st.button("Start Batch Analysis"):
+            # Load the new file
+            new_df = pd.read_csv(os.path.join(log_folder, selected_file))
+            
+            # Predict for the whole file
+            # We assume the file has the 30 columns the model needs
+            X_batch = new_df.iloc[:, :30] 
+            predictions = model.predict(X_batch)
+            new_df['Security_Status'] = ["🚩 FRAUD" if p == 1 else "✅ SAFE" for p in predictions]
+            
+            # Show results
+            st.success(f"Analysis Complete for {selected_file}!")
+            st.dataframe(new_df.style.applymap(
+                lambda x: 'background-color: #702020' if x == "🚩 FRAUD" else '', 
+                subset=['Security_Status']
+            ))
